@@ -4,7 +4,6 @@
       gather_facts: no
       vars_files:
        - group_vars/webserver.yml
-       - shhhh.yml
       tasks :
 
       # check if httpd are there 

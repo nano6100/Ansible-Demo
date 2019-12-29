@@ -3,17 +3,21 @@
       hosts : dbserver
       vars_files:
        - group_vars/dbserver.yml
+       - user.yml
     #  vars_files: user.yml
 
       tasks:
 
-      # install mariadb and python-PyMySQL
-      - name: install {{db_pkg}} and python3-PyMySQL
+      # install mariadb 
+      - name: install {{db_pkg}}
         yum:
-         name: 
-          - "{{mariadb-server}}"
-          - python3-PyMySQL
+         name: "{{db_pkg}}"
          state: latest 
+      # add python MySQL support
+      - name: adding Python MySQL Support 
+        yum: 
+          name: MySQL-python
+          state: present
      
 
 
@@ -21,8 +25,14 @@
       - name: mariadb enabled and running
         service:
           name: mariadb
-          enabled: true
           state: started
+          enabled: true
 
-      
-      
+      - name: Set the root Password
+        mysql_user:
+          login_user: root
+          login_password: ""
+          user: root
+          password: "{{SQL_root_password}}"
+          host: localhost
+

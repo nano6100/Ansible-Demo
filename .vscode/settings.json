@@ -1,0 +1,16 @@
+{
+    "ansible.fileCopyConfig": [
+        {
+            "server": "192.168.43.131",
+            "sourcePath": "/home/nawaf/Documents/Ansible Porject/",
+            "targetPath": "NotShowThisAgain",
+            "copyOnSave": true
+        },
+        {
+            "server": "webserver.test.sa",
+            "sourcePath": "/home/nawaf/Documents/Ansible Porject/",
+            "targetPath": "NotShowThisAgain",
+            "copyOnSave": true
+        }
+    ]
+}
