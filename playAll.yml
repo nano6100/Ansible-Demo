@@ -1,0 +1,6 @@
+
+ - name: play simpleWebPlaybook.yml
+   import_playbook: simpleWebPlaybook.yml
+
+ - name: play simpleDBPlaybook.yml
+   import_playbook: simpleDBPlaybook.yml

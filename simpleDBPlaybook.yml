@@ -1,0 +1,28 @@
+---
+    - name : simple playbook for DBServer
+      hosts : dbserver
+      vars_files:
+       - group_vars/dbserver.yml
+    #  vars_files: user.yml
+
+      tasks:
+
+      # install mariadb and python-PyMySQL
+      - name: install {{db_pkg}} and python3-PyMySQL
+        yum:
+         name: 
+          - "{{mariadb-server}}"
+          - python3-PyMySQL
+         state: latest 
+     
+
+
+      # enable mariadb
+      - name: mariadb enabled and running
+        service:
+          name: mariadb
+          enabled: true
+          state: started
+
+      
+      

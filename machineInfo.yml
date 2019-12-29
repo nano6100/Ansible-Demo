@@ -1,0 +1,10 @@
+---
+- name: Fact dump
+  hosts: all
+  tasks:
+    - name: Print some facts
+      debug:
+        msg: The default IPv4 address of {{ ansible_facts.fqdn }}
+         is {{ ansible_facts.default_ipv4.address }} and running kernel 
+         is {{ansible_facts.kernel}}
+          

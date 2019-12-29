@@ -1,0 +1,53 @@
+---
+    - name : simple playbook for webserver
+      hosts : webserver
+      gather_facts: no
+      vars_files:
+       - group_vars/webserver.yml
+       - shhhh.yml
+      tasks :
+
+      # check if httpd are there 
+        - name: httpd and firewalld are present
+          yum :
+            name: 
+             - "{{web_service}}"
+             - "{{firewall_service}}"
+            state: present
+
+      # install httpd 
+        - name: install httpd and firewalld
+          yum: 
+            name: 
+             - "{{web_pkg}}"
+             - "{{firewall_pkg}}"
+            update_cache: yes 
+            state: latest
+
+      # enable httpd 
+        - name: httpd is enabled
+          service:
+             name: "{{web_service}}"
+
+             state: started
+             enabled: true 
+
+      # enable NTP 
+        - name: NTP server is enabled
+          service:
+             name: chronyd 
+             enabled: true 
+
+      # copy html file to the server 
+        - name: index.html is present 
+          become: false
+          copy:
+            src: ./index.html
+            dest: /var/www/html/index.html
+      # permit access to httpd service 
+        - name: firewalld permits access to httpd service 
+          firewalld:
+            service: "{{rule}}"
+            permanent: true
+            state: enabled
+            immediate: yes
