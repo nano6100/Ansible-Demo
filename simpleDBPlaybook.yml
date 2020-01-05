@@ -2,9 +2,9 @@
     - name : simple playbook for DBServer
       hosts : dbserver
       vars_files:
+       - host_vars/user.yml
        - group_vars/dbserver.yml
-       - user.yml
-    #  vars_files: user.yml
+       
 
       tasks:
 
@@ -15,9 +15,8 @@
          state: latest 
       # add python MySQL support
       - name: adding Python MySQL Support 
-        yum: 
+        pip: 
           name: MySQL-python
-          state: present
      
 
 
@@ -30,9 +29,19 @@
 
       - name: Set the root Password
         mysql_user:
-          login_user: root
-          login_password: ""
-          user: root
-          password: "{{SQL_root_password}}"
-          host: localhost
+            login_user: root
+            login_password: ""
+            user: root
+            password: "{{mysql_root_password}}"
+            host: localhost
+          
+      - name: Delete anonymous Mysql server user
+        mysql_user:
+          user: ""
+          state: absent
+
+      - name: Remove the test database for Mysql
+        mysql_db:
+          db: test
+          state: absent
 
