@@ -15,8 +15,8 @@
          state: latest 
       # add python MySQL support
       - name: adding Python MySQL Support 
-        pip: 
-          name: MySQL-python
+        yum:
+          name: python3-PyMySQL
      
 
 
@@ -29,19 +29,29 @@
 
       - name: Set the root Password
         mysql_user:
-            login_user: root
-            login_password: ""
-            user: root
+            name: root
+            login_password: "{{mysql_root_password}}"
             password: "{{mysql_root_password}}"
-            host: localhost
+            when: mysql_root_password is defined
           
       - name: Delete anonymous Mysql server user
         mysql_user:
           user: ""
+          login_password: "{{mysql_root_password}}"
           state: absent
 
       - name: Remove the test database for Mysql
         mysql_db:
+          login_password: "{{mysql_root_password}}"
           db: test
           state: absent
+
+      - name: create a new user for mariadb 
+        mysql_user:
+          name: "nalomari"
+          password: "{{dbUser_password}}"
+          login_password: "{{mysql_root_password}}"
+          priv: '*.*:ALL'
+          state: present
+
 

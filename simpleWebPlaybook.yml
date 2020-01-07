@@ -9,25 +9,21 @@
       # check if httpd are there 
         - name: httpd and firewalld are present
           yum :
-            name: 
-             - "{{web_service}}"
-             - "{{firewall_service}}"
+            name: "{{item}}"
             state: present
+          loop: "{{service}}"
 
       # install httpd 
         - name: install httpd and firewalld
           yum: 
-            name: 
-             - "{{web_pkg}}"
-             - "{{firewall_pkg}}"
+            name: "{{item}}"
             update_cache: yes 
             state: latest
-
+          loop: "{{service}}"
       # enable httpd 
         - name: httpd is enabled
           service:
-             name: "{{web_service}}"
-
+             name: "{{service[0]}}"
              state: started
              enabled: true 
 
@@ -35,7 +31,8 @@
         - name: NTP server is enabled
           service:
              name: chronyd 
-             enabled: true 
+             enabled: true
+          when: time is defined 
 
       # copy html file to the server 
         - name: index.html is present 
