@@ -27,12 +27,12 @@
           state: started
           enabled: true
 
-      - name: Set the root Password
-        mysql_user:
-            name: root
-            login_password: "{{mysql_root_password}}"
-            password: "{{mysql_root_password}}"
-            when: mysql_root_password is defined
+      # - name: Set the root Password
+      #   mysql_user:
+      #       name: root
+      #       login_password: "{{mysql_root_password}}"
+      #       password: "{{mysql_root_password}}"
+      #       when: mysql_root_password is defined
           
       - name: Delete anonymous Mysql server user
         mysql_user:
